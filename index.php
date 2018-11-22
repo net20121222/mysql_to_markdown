@@ -9,6 +9,7 @@ $config = [
 	'host'=> trim($_GET['host']),
 	'user'=> trim($_GET['user']),
 	'pwd'=> trim($_GET['pwd']),
+	'charset'=> trim($_GET['charset']),
 ];
 $flag = false;
 if($config['db']){
@@ -17,13 +18,14 @@ if($config['db']){
 
 
 	$flag = true;
-		// Initialize
+    // Initialize
 $db = new Medoo([
     'database_type' => 'mysql',
     'database_name' => $config['db'],
     'server' => $config['host'],
     'username' => $config['user'],
     'password' => $config['pwd'],
+    'charset' => $config['charset']?$config['charset']:'utf8',
 ]);
 $rs = $db->query('show tables')->fetchAll();
 foreach($rs as $v){
@@ -128,6 +130,10 @@ if($cookie){
   <input type="text" class="form-control" placeholder=""   value="<?php echo trim($_GET['db']?:$cookie['db']);?>" name="name">
 </div>
  
+<div class="form-group">
+  <label class="col-form-label" for="inputDefault">字符集(默认utf8)</label>
+  <input type="text" class="form-control" placeholder=""   value="<?php echo trim($_GET['charset']?:$cookie['charset']);?>" name="charset">
+</div>
  
 <button type="submit" class="btn btn-primary">生成</button>
 </form>
